@@ -1,8 +1,9 @@
 #ifndef led_included
 #define led_included
 
-#define LED_RED BIT0               // P1.0
-#define LED_GREEN BIT6             // P1.6
+#define LED_RED BIT6               // P1.6
+#define LED_GREEN BIT0             // P1.0
+/* I inverted the bits since they seem to turn on the opposite LED in the controller */
 #define LEDS (BIT0 | BIT6)
 
 extern unsigned char red_on, green_on;
