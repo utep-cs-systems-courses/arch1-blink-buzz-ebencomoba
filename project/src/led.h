@@ -9,7 +9,7 @@
 extern unsigned char red_on, green_on;
 extern unsigned char led_changed;
 
-void led_init();
-void led_update();
+void led_init();   /* Initializes LEDs */
+void led_update(); /* Turns off the LEDs we are not using and on the ones we are using */
 
 #endif // included

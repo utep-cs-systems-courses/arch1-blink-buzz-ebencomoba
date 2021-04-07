@@ -45,7 +45,7 @@ void double_blink()   /* Blink green, blink red, blink both */
   ptn2_state++;
 }
 
-void toggle()
+void toggle() /* Toggles between red and green */
 {
   static char ptn3_state = 0;
   switch (ptn3_state) {
@@ -54,7 +54,7 @@ void toggle()
   }
 }
 
-void led_state_advance()      	/* Advances */
+void led_state_advance()      	/* Advances state of LEDs */
 {
   switch(curr_state) {
   case 0: binary_count(); break;
@@ -66,7 +66,7 @@ void led_state_advance()      	/* Advances */
   led_update();
 }
 
-void melody_1()
+void melody_1()                 /* Simple melody 1 */
 {
   static short mel1_state = 0;
   switch(mel1_state) {
@@ -78,7 +78,7 @@ void melody_1()
   mel1_state++;
 }
 
-void melody_2()
+void melody_2()                 /* Simple melody 2 */
 {
   static short mel2_state = 0;
   switch(mel2_state) {
@@ -90,14 +90,14 @@ void melody_2()
   mel2_state++;
 }
 
-void melody_3()
+void melody_3()                  /* Simple melody 3 */
 {
   static short mel3_state = 30000;
   buzzer_set_period(mel3_state);
   mel3_state = 0 ? 30000 : (mel3_state - 5000);
 }
 
-void buzzer_state_advance()
+void buzzer_state_advance()      /* Advances state of buzzer */
 {
   if (switch0_down)
     melody_1();
@@ -109,7 +109,7 @@ void buzzer_state_advance()
     buzzer_set_period(0);
 }
 
-void switch_state_changed()
+void switch_state_changed()      /* Updates states if a different button is pressed */
 {
   if (button_pressed) {
     if (switch0_down)

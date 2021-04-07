@@ -6,7 +6,7 @@ unsigned char led_changed = 0;
 
 static char redVal[] = {0, LED_RED}, greenVal[] = {0, LED_GREEN};
 
-
+/* Initializes LEDs */
 void led_init()
 {
   P1DIR |= LEDS;		// bits attached to leds are output
@@ -14,6 +14,7 @@ void led_init()
   led_update();
 }
 
+/* Turns off the LEDS we are not using, and on the ones we are using */
 void led_update()
 {
   if (led_changed) {

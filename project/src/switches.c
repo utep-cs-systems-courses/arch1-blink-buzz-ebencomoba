@@ -4,8 +4,9 @@
 #include "stateMachines.h"
 
 char switch0_down, switch1_down, switch2_down, switch3_down;
-char button_pressed; /* effectively boolean */
+char button_pressed;
 
+/* Updates the interrupt sense to save battery */
 static char 
 switch_update_interrupt_sense()
 {
@@ -16,6 +17,7 @@ switch_update_interrupt_sense()
   return p2val;
 }
 
+/* Initializes switches */
 void 
 switch_init()			/* setup switch */
 {  
@@ -26,14 +28,15 @@ switch_init()			/* setup switch */
   switch_update_interrupt_sense();
 }
 
+/* Updates switches dependant variables */
 void
 switch_interrupt_handler()
 {
   char p2val = switch_update_interrupt_sense();
-  switch0_down = (p2val & SW0) ? 0 : 1; /* 0 when SW1 is up */
+  button_pressed = (~p2val) & SWITCHES;  /* Siganls what buttons are being pressed */
+  switch0_down = (p2val & SW0) ? 0 : 1;  /* True if the switch is not being pressed down */
   switch1_down = (p2val & SW1) ? 0 : 1;
   switch2_down = (p2val & SW2) ? 0 : 1;
   switch3_down = (p2val & SW3) ? 0 : 1;
-  button_pressed = (~p2val) & SWITCHES;
-  switch_state_changed();
+  switch_state_changed();                /* Updates states of LEDs and buzzer if necessary */
 }
