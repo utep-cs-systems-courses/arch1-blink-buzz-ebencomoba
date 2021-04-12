@@ -1,31 +1,48 @@
 ## Description
-This interrupt-driven program flashes the LEDs in a silly pattern.
+This interrupt-driven program is in a standby mode where both LEDs (red and
+green) are on. When a button is pressed, the LED will turn on and off
+intermittenly with a pattern for each button. This pattern will remain until
+another button is pressed. Additionally, each button has a tune that will
+sound while it is being pressed. An exception is the second button, that will
+not make sound and will send back to the standyby mode.
 
-## Exploration
+## How to use
+The Makefile contains the rules to compile and clean the program. To load it
+into the MSP430 you need to type:
+**make load**
 
-_Write some some code in Assembly Language_
+## Structure
+The program is divided according to the functions on the controller. It is
+mainly directed towards the input of the switches to change states, the output
+of the LEDs that blinks in specific patterns with a timer, and the sounds produced by a little
+buzzer.
 
-Translate led.c to led_s.s, and modify the Makefile to reference it.  Remember
+### main
+main.c contains the main program that it is executed when running. It
+inititializs the buzzer, switches, leds and timer.
 
-* to put global and static vars in the data segment and instructions in the
-text segment using the .data and .text directives,
-* to make global symbols visible to other modules using .global, and
-* to import external symbols from other modules with .extern
+### led
+Contains how the leds should be initialized and updating the led by turning
+them on or off as requested.
 
-_Changing speed:_ Figure out how to flash the lights faster or slower.  Determine if there's a speed where the lights don't appear to flash... but glow instead!
+### buzzer
+Contains how to initialize the buzzer and what sound will be produced based on
+the period of the wavelength.
 
-_Counting to three:_  Change the program to slowly and repeatedly
-count from zero to three, displaying the value in binary using the red
-& green lights. This is simpler than the program we provided.
+### switches
+Contains how to initialize the switches, it updates the interrupt sense and
+other variables depending on the state of the buttons.
 
-## Some Advice
-When creating your own variants to the demo programs,
-it's probably a good idea to keep a copy of the original program (or really understand how _git checkout_ works).  
+### stateMachines
+It updates the buzzer and the led states. It contains three patterns for the
+leds and one to reset them. Each pattern will keep control of the previous
+state to output the next led state. Similarly, while a button is being
+pressed, depending on which of them, a musical melody will sound. Both, buzzer
+and led updates depend on a timer to go to the next state.
 
-
-
-
-
-
-
+### wInterruptHandler
+Contains the timers for buzzer and the leds. They are independient of each
+other, and once a certain interval of time has passed they will call the
+function to update states. It also contains the second port used for the
+switches, to update their states each time input changes.
 
